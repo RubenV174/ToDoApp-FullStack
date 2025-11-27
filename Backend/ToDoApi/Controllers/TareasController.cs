@@ -45,5 +45,26 @@ namespace ToDoApi.Controllers
 
             return Ok(lista);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearTarea([FromBody] Tarea nuevaTarea)
+        {
+            using (var conexion = new SqlConnection(cadenaConexion))
+            {
+                await conexion.OpenAsync();
+
+                string query = "INSERT INTO Tareas (Titulo, Completada) VALUES (@Titulo, 0); SELECT SCOPE_IDENTITY();";
+
+                using (var comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@Titulo", nuevaTarea.Titulo);
+
+                    var idGenerado = await comando.ExecuteScalarAsync();
+                    nuevaTarea.Id = Convert.ToInt32(idGenerado);
+                }
+            }
+
+            return CreatedAtAction(nameof(ObtenerTareas), new { id = nuevaTarea.Id }, nuevaTarea);
+        }
     }
 }
