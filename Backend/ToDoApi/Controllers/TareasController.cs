@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Globalization;
 using ToDoApi.Models;
 
 namespace ToDoApi.Controllers
@@ -65,6 +66,49 @@ namespace ToDoApi.Controllers
             }
 
             return CreatedAtAction(nameof(ObtenerTareas), new { id = nuevaTarea.Id }, nuevaTarea);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ActualizarTarea(int id)
+        {
+            using (var conexion = new SqlConnection(cadenaConexion))
+            {
+                await conexion.OpenAsync();
+
+                string query = "UPDATE Tareas SET Completada = ~Completada WHERE Id = @Id";
+
+                using (var comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@Id", id);
+
+                    int filasAfectadas = await comando.ExecuteNonQueryAsync();
+
+                    if (filasAfectadas == 0) return NotFound();
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> EliminarTarea(int id)
+        {
+            using (var conexion = new SqlConnection(cadenaConexion))
+            {
+                await conexion.OpenAsync();
+
+                string query = "DELETE FROM Tareas WHERE Id = @Id";
+
+                using (var comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@Id", id);
+
+                    int filasAfectadas = await comando.ExecuteNonQueryAsync();
+
+                    if (filasAfectadas == 0) return NotFound();
+                }
+            }
+            return NoContent();
         }
     }
 }
