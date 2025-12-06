@@ -1,0 +1,20 @@
+<div class="contenedor-angular">
+    <h2>Tareas en Angular 🅰️</h2>
+
+    <div class="input-group">
+        <input type="text" [(ngModel)]="nuevaTareaTitulo" placeholder="Nueva tarea...">
+        <button (click)="agregarTarea()">Guardar</button>
+    </div>
+
+    <ul>
+        @for (tarea of listaTareas; track tarea.id) {
+            <span (click)="cambiarEstado(tarea)">
+                {{ tarea.titulo }}
+            </span>
+
+            <button class="btn-delete" (click)="borrarTarea(tarea.id!)">X</button>
+        } @empty {
+            <li>No hay tareas. ¡Agrega una!</li>
+        }
+    </ul>
+</div>
