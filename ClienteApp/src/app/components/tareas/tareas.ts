@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Api as ApiService, Tarea } from '../../services/api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,8 @@ export class Tareas implements OnInit {
 
   private apiService = inject(ApiService)
 
+  private cdRef = inject(ChangeDetectorRef)
+
   ngOnInit(): void {
     this.cargarTareas()
   }
@@ -24,6 +26,7 @@ export class Tareas implements OnInit {
     this.apiService.getTareas().subscribe({
       next: (datos) => {
         this.listaTareas = datos
+        this.cdRef.detectChanges()
       },
       error: (err) => console.error("Error al conectar:", err)
     })
