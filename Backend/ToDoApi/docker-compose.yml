@@ -22,14 +22,5 @@ services:
       - ConnectionStrings__CadenaSQL=Server=db;Database=ToDoDB;User Id=sa;Password=TuPasswordFuerte123!;TrustServerCertificate=True;
       - ASPNETCORE_ENVIRONMENT=Development
 
-  frontend:
-    build:
-      context: ../../ClienteApp
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-
 volumes:
   sql_data:
