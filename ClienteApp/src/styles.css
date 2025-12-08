@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
