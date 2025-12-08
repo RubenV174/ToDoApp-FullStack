@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_container
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=TuPasswordFuerte123!
+    ports: ["1433:1433"]
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  api:
+    image: todoapi-image
+    container_name: todoapi_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: ["8080:8080"]
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__CadenaSQL=Server=db;Database=ToDoDB;User Id=sa;Password=TuPasswordFuerte123!;TrustServerCertificate=True;
+      - ASPNETCORE_ENVIRONMENT=Development
+
+volumes:
+  sql_data:
