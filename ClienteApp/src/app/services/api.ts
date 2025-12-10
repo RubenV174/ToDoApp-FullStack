@@ -12,7 +12,7 @@ export interface Tarea {
   providedIn: 'root',
 })
 export class Api {
-  private apiUrl = 'https://localhost:44385/api/tareas'
+  private apiUrl = 'http://localhost:8080/api/Tareas'
 
   private http = inject(HttpClient)
 
